@@ -1,0 +1,12 @@
+@import 'variables';
+
+body {
+  margin: auto;
+  max-inline-size: $game-size;
+  background-color: $bc;
+}
+
+h1 {
+  margin: auto;
+  font-size: 30px;
+}
