@@ -1,21 +1,53 @@
 @import "variables";
 
 body {
-  margin: auto;
+  margin: 50px auto auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   max-inline-size: $game-size;
   background-color: $bc;
+  font-family: 'Montserrat';
+}
+
+
+
+.start-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .start-menu-options {
+    display: flex;
+    gap: 30px;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      button {
+        min-inline-size: 30px;
+        min-block-size: 30px;
+      }
+    }
+  }
 }
 
 .visibility-hidden {
   display: none;
 }
 
-.visibility-visible {
-  display: block;
+.home-button {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+
+  img {
+    max-block-size: 20px;
+    max-inline-size: 20px;
+  }
 }
 
 .board {
@@ -40,8 +72,13 @@ body {
   }
 
   &.matched {
-    opacity: 0.5;
+    
     pointer-events: none;
+
+    .card-front {
+      border: 1px solid black;
+      background-color: $bc;
+    }
   }
 }
 
@@ -63,7 +100,8 @@ body {
 }
 
 .card-back {
-  background-color: #e74c3c;
+  background-color: $card-color;
   color: white;
   content: "?";
 }
+

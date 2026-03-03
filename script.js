@@ -1,20 +1,18 @@
-const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 let blockBoard = false;
 let firstCard, secondCard;
 let isFirstCardOpened = false;
 let moves = 0;
 
 function renderCards(cardsCount) {
-    
-
     const board = document.querySelector('.board');
     const templateCard = document.getElementById('card-template');
     const movesCount = document.querySelector('.moves-count');
 
+    movesCount.textContent = '';
     board.innerHTML = '';
     const values = [];
-    for (let i = 0; i < cardsCount / 2; i++) {
-        values.push(numbers[i % numbers.length]);
+    for (let i = 1; i < cardsCount / 2 + 1; i++) {
+        values.push(i);
     }
     const deck = [...values, ...values];
     deck.sort(() => Math.random() - 0.5);
@@ -30,7 +28,7 @@ function renderCards(cardsCount) {
             if (blockBoard || card.classList.contains('flipped') || card.classList.contains('matched')) return;
 
             card.classList.add('flipped');
-            movesCount.textContent = `Сделано ходов: ${++moves}`;
+            movesCount.textContent = `Перевернуто карточек: ${++moves}`;
 
             if (!isFirstCardOpened) {
                 isFirstCardOpened = true;
@@ -74,7 +72,7 @@ function reset() {
 
 function isAllMatched() {
     if (document.querySelectorAll('.card.matched').length === document.querySelectorAll('.card').length) {
-        alert(`Победа! Сделано ходов: ${moves}`);
+        alert(`Победа! Перевернуто карточек: ${moves}`);
         startGame();
     }
 }
@@ -91,8 +89,21 @@ function startGame() {
     secondCard = null;
     moves = 0;
 
-    setBoardSize(2);
-    renderCards(4);
+    setBoardSize(4);
+    renderCards(16);
 }
 
-startGame();
+const menu = document.querySelector('.start-menu');
+const game = document.querySelector('.game');
+
+document.querySelector('.start-button').addEventListener('click', () => {
+        menu.classList.add('visibility-hidden');
+        game.classList.remove('visibility-hidden');
+        startGame();
+    }
+);
+
+document.querySelector('.home-button').addEventListener('click', () => {
+        menu.classList.remove('visibility-hidden');
+        game.classList.add('visibility-hidden');
+})

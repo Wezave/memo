@@ -5,41 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memo Game</title>
     <link rel="icon" href="./images/icon.ico" sizes="any" />
-    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="./fonts/fonts.css">
+    <link rel="stylesheet" href="./styles/styles.css" />
   </head>
   <body>
-    <section class="start-menu visibility-hidden">
+    <button class="home-button" type="button"><img src="./images/icon-home.svg"></button>
+    <section class="start-menu">
       <h1>Игра "Мемо"</h1>
       <nav>
-        <ul>
+        <ul class="start-menu-options">
           <li>
-            Что ищем
+            <h2>
+              Что ищем
+            </h2>
             <button>Числа</button>
             <button>Эмодзи</button>
             <button>Символы</button>
           </li>
           <li>
-            Размер поля
+            <h2>
+              Размер поля
+            </h2>
             <button>4х4</button>
             <button>6х6</button>
             <button>8х8</button>
           </li>
           <li>
-            Время на ход
+            <h2>
+              Время на ход
+            </h2>
             <button>Без ограничений</button>
             <button>10с</button>
             <button>20с</button>
           </li>
-        </ul>
-        <button>СТАРТ</button>
+        </ul> 
       </nav>
+      <button class="start-button">СТАРТ</button>
     </section>
-    <section class="visibility-visible">
+    <section class="game visibility-hidden">
         <template id="card-template">
             <div class="card">
                 <div class="card-front visibility-hidden">
                 </div>
-                <div class="card-back visibility-visible">
+                <div class="card-back">
                     ?
                 </div>
             </div>
