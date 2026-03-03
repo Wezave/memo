@@ -3,6 +3,8 @@ let firstCard, secondCard;
 let isFirstCardOpened = false;
 let moves = 0;
 
+const cardCount = 4;
+
 function renderCards(cardsCount) {
     const board = document.querySelector('.board');
     const templateCard = document.getElementById('card-template');
@@ -11,13 +13,13 @@ function renderCards(cardsCount) {
     movesCount.textContent = '';
     board.innerHTML = '';
     const values = [];
-    for (let i = 1; i < cardsCount / 2 + 1; i++) {
+    for (let i = 1; i < cardsCount**2 / 2 + 1; i++) {
         values.push(i);
     }
     const deck = [...values, ...values];
     deck.sort(() => Math.random() - 0.5);
 
-    for (let i = 0; i < cardsCount; i++) {
+    for (let i = 0; i < cardsCount**2; i++) {
         const cardElement = templateCard.content.cloneNode(true).firstElementChild;
         cardElement.querySelector('.card-front').textContent = deck[i];
         cardElement.dataset.value = deck[i];
@@ -73,7 +75,8 @@ function reset() {
 function isAllMatched() {
     if (document.querySelectorAll('.card.matched').length === document.querySelectorAll('.card').length) {
         alert(`Победа! Перевернуто карточек: ${moves}`);
-        startGame();
+        menu.classList.remove('visibility-hidden');
+        game.classList.add('visibility-hidden');
     }
 }
 
@@ -82,16 +85,24 @@ function setBoardSize(size) {
     board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 }
 
-function startGame() {
+function startGame(val) {
     blockBoard = false;
     isFirstCardOpened = false;
     firstCard = null;
     secondCard = null;
     moves = 0;
 
-    setBoardSize(4);
-    renderCards(16);
+    setBoardSize(val);
+    renderCards(val);
 }
+
+const sizeRange = document.getElementById('size-range');
+const sizeSpan = document.getElementById('size-value');
+
+sizeRange.addEventListener('input', (e) => {
+    const val = e.target.value;
+    sizeSpan.textContent = `${val}x${val}`;
+});
 
 const menu = document.querySelector('.start-menu');
 const game = document.querySelector('.game');
@@ -99,7 +110,7 @@ const game = document.querySelector('.game');
 document.querySelector('.start-button').addEventListener('click', () => {
         menu.classList.add('visibility-hidden');
         game.classList.remove('visibility-hidden');
-        startGame();
+        startGame(sizeRange.value);
     }
 );
 

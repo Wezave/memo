@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
   <body>
-    <button class="home-button" type="button"><img src="./images/icon-home.svg"></button>
     <section class="start-menu">
       <h1>Игра "Мемо"</h1>
       <nav>
@@ -26,9 +25,8 @@
             <h2>
               Размер поля
             </h2>
-            <button>4х4</button>
-            <button>6х6</button>
-            <button>8х8</button>
+            <input type="range" id="size-range" min="2" max="10" step="2" value="4">
+            <span id="size-value">4x4</span>
           </li>
           <li>
             <h2>
@@ -43,6 +41,7 @@
       <button class="start-button">СТАРТ</button>
     </section>
     <section class="game visibility-hidden">
+      <button class="home-button" type="button"><img src="./images/icon-home.svg" alt="кнопка возвращаения на стартовый экран"></button>
         <template id="card-template">
             <div class="card">
                 <div class="card-front visibility-hidden">
