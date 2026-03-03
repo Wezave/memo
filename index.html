@@ -1,15 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memo Game</title>
-    <link rel="icon" href="./images/icon.ico" sizes="any">
-    <link rel="stylesheet" href="styles/styles.css">
-</head>
-<body>
-    <h1>
-        Игра "Мемо"
-    </h1>
-</body>
-</html> 
+    <link rel="icon" href="./images/icon.ico" sizes="any" />
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body>
+    <section class="start-menu visibility-hidden">
+      <h1>Игра "Мемо"</h1>
+      <nav>
+        <ul>
+          <li>
+            Что ищем
+            <button>Числа</button>
+            <button>Эмодзи</button>
+            <button>Символы</button>
+          </li>
+          <li>
+            Размер поля
+            <button>4х4</button>
+            <button>6х6</button>
+            <button>8х8</button>
+          </li>
+          <li>
+            Время на ход
+            <button>Без ограничений</button>
+            <button>10с</button>
+            <button>20с</button>
+          </li>
+        </ul>
+        <button>СТАРТ</button>
+      </nav>
+    </section>
+    <section class="visibility-visible">
+        <template id="card-template">
+            <div class="card">
+                <div class="card-front visibility-hidden">
+                </div>
+                <div class="card-back visibility-visible">
+                    ?
+                </div>
+            </div>
+        </template>
+        <div class="board">
+        </div>
+        <p class="moves-count">
+        </p>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
