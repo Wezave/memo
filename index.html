@@ -14,43 +14,36 @@
       <nav>
         <ul class="start-menu-options">
           <li>
-            <h2>
-              Что ищем
-            </h2>
-            <button>Числа</button>
-            <button>Эмодзи</button>
-            <button>Символы</button>
+            <h2>Что ищем</h2>
+            <button class="theme-button active" data-theme="numbers">Числа</button>
+            <button class="theme-button" data-theme="flags">Коды стран</button>
+            <button class="theme-button" data-theme="emojis">Смайлики</button>
           </li>
           <li>
               <h2>Количество пар</h2>
               <input type="range" id="pairs-range" min="4" max="20" step="1" value="8">
               <span id="pairs-value">8 пар (16 карт)</span>
           </li>
-          <li>
-            <h2>
-              Время на ход
-            </h2>
-            <button>Без ограничений</button>
-            <button>10с</button>
-            <button>20с</button>
-          </li>
         </ul> 
       </nav>
       <button class="start-button">СТАРТ</button>
     </section>
     <section class="game visibility-hidden">
-      <button class="home-button" type="button"><img src="./images/icon-home.svg" alt="кнопка возвращаения на стартовый экран">
-      </button>
+      <button class="home-button" type="button"><img src="./images/icon-home.svg" alt="кнопка возвращаения на стартовый экран"></button>
       <template id="card-template">
-          <div class="card">
-              <div class="card-front"></div>
-              <div class="card-back">?</div>
-          </div>
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back">?</div>
+        </div>
       </template>
-      <div class="board">
+      <div class="board"></div>
+      <p class="moves-count"></p>
+      <div class="win-overlay visibility-hidden">
+        <div class="win-block">
+          <p>Победа! Сделано ходов: <span class="victory-moves"></span></p>
+          <button class="victory-menu-button">В меню</button>
+        </div>
       </div>
-      <p class="moves-count">
-      </p>
     </section>
     <script src="script.js"></script>
   </body>

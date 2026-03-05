@@ -2,10 +2,14 @@ let blockBoard = false;
 let firstCard, secondCard;
 let isFirstCardOpened = false;
 let moves = 0;
+let currentTheme = 'numbers';
 
 const menu = document.querySelector('.start-menu');
 const game = document.querySelector('.game');
 const board = document.querySelector('.board');
+const winOverlay = document.querySelector('.win-overlay');
+const winMovesSpan = document.querySelector('.victory-moves');
+const winMenuButton = document.querySelector('.victory-menu-button');
 const templateCard = document.getElementById('card-template');
 const movesCount = document.querySelector('.moves-count');
 
@@ -16,108 +20,94 @@ pairsRange.addEventListener('input', (e) => {
     pairsSpan.textContent = `${val} пар (${val*2} карт)`;
 });
 
+const themeButtons = document.querySelectorAll('.theme-button');
+themeButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        themeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTheme = btn.dataset.theme;
+    });
+});
+
+const themes = {
+    numbers: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19'],
+    flags: ['🇦🇫','🇦🇽','🇦🇱','🇩🇿','🇦🇸','🇦🇩','🇦🇴','🇦🇮','🇦🇶','🇦🇬','🇦🇷','🇦🇲','🇦🇼','🇦🇺','🇦🇹','🇦🇿','🇧🇸','🇧🇭','🇧🇩','🇧🇧','🇧🇾','🇧🇪','🇧🇿','🇧🇯','🇧🇲','🇧🇹','🇧🇴','🇧🇦','🇧🇼','🇧🇻'],
+    emojis: ['😀','😁','😂','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','😗','😙','😚','🙂','🤗','🤔','😐','😑',
+             '😶','🙄','😏','😣','😥','😮','🤐','😯','😪']
+};
+
 function isMobile() {
     return window.matchMedia('(max-width: 768px)').matches;
 }
 
-function findBestGrid(totalCards, targetRatio, maxCols) {
-    let bestCols = 2;
-    let bestDiff = Infinity;
-
-    for (let cols = 2; cols <= maxCols; cols++) {
-        const rows = Math.ceil(totalCards / cols);
-        const ratio = rows / cols;
-        const diff = Math.abs(ratio - targetRatio);
-        if (diff < bestDiff || (diff === bestDiff && cols > bestCols)) {
-            bestDiff = diff;
-            bestCols = cols;
+function generateDeck(pairs, theme) {
+    let values;
+    if (theme === 'numbers') {
+        values = [];
+        for (let i = 0; i < pairs; i++) values.push(i.toString());
+    } else {
+        const arr = themes[theme];
+        values = [];
+        for (let i = 0; i < pairs; i++) {
+            values.push(arr[Math.floor(Math.random() * arr.length)]);
         }
     }
-    const rows = Math.ceil(totalCards / bestCols);
-    return [rows, bestCols];
+    const deck = [...values, ...values];
+    deck.sort(() => Math.random() - 0.5);
+    return deck;
 }
 
 function renderCards(pairs) {
     const totalCards = pairs * 2;
     const mobile = isMobile();
-
-    const containerWidth = board.getBoundingClientRect().width;
+    const deck = generateDeck(pairs, currentTheme);
     const gap = 10;
-    const minCardSize = 80;
+    const containerWidth = board.getBoundingClientRect().width;
 
-    if (!mobile) {
-        const cardSize = 100;
-        const maxCols = Math.floor((containerWidth + gap) / (cardSize + gap));
-        const cols = Math.min(maxCols, totalCards);
-        board.style.gridTemplateColumns = `repeat(${cols}, ${cardSize}px)`;
-        board.classList.remove('mobile-board');
-        board.innerHTML = '';
-
-        const values = [];
-        for (let i = 1; i <= pairs; i++) {
-            values.push(i);
-        }
-        const deck = [...values, ...values];
-        deck.sort(() => Math.random() - 0.5);
-
-        for (let i = 0; i < totalCards; i++) {
-            const cardElement = templateCard.content.cloneNode(true).firstElementChild;
-            cardElement.querySelector('.card-front').textContent = deck[i];
-            cardElement.dataset.value = deck[i];
-
-            cardElement.addEventListener('click', (event) => {
-                const card = event.currentTarget;
-                if (blockBoard || card.classList.contains('flipped') || card.classList.contains('matched')) return;
-
-                card.classList.add('flipped');
-                movesCount.textContent = `Перевернуто карточек: ${++moves}`;
-
-                if (!isFirstCardOpened) {
-                    isFirstCardOpened = true;
-                    firstCard = card;
-                } else {
-                    isFirstCardOpened = false;
-                    secondCard = card;
-                    blockBoard = true;
-                    checkMatch();
-                }
-            });
-
-            board.appendChild(cardElement);
-        }
-        return;
-    }
-
-    const maxColsByWidth = Math.floor((containerWidth + gap) / (minCardSize + gap));
-    const maxCols = Math.min(maxColsByWidth, totalCards);
-    const targetRatio = 1.5;
-    const [rows, cols] = findBestGrid(totalCards, targetRatio, maxCols);
-
-    board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-
-    const availableHeight = 0.8 * window.innerHeight;
-    const maxCardHeight = (availableHeight - (rows - 1) * gap) / rows;
-    const maxCardWidth = (containerWidth - (cols - 1) * gap) / cols;
-    let cardSize = Math.min(maxCardWidth, maxCardHeight);
-    cardSize = Math.max(cardSize, minCardSize);
-    board.style.setProperty('--card-size', `${cardSize}px`);
-    board.classList.add('mobile-board');
-
+    board.style.display = 'flex';
+    board.style.flexWrap = 'wrap';
+    board.style.justifyContent = 'center';
+    board.style.gap = `${gap}px`;
+    board.style.gridTemplateColumns = '';
+    board.classList.toggle('mobile-board', mobile);
     board.innerHTML = '';
 
-    const values = [];
-    for (let i = 1; i <= pairs; i++) {
-        values.push(i);
+    let cardWidth, cardHeight;
+    if (!mobile) {
+        cardWidth = cardHeight = 100;
+    } else {
+        const minCardSize = 80;
+        
+        const maxColsByWidth = Math.floor((containerWidth + gap) / (minCardSize + gap));
+        const maxCols = Math.min(maxColsByWidth, totalCards);
+        const targetRatio = 1.5;
+        const [rows, cols] = (() => {
+            let bestCols = 2, bestDiff = Infinity;
+            for (let c = 2; c <= maxCols; c++) {
+                const r = Math.ceil(totalCards / c);
+                const ratio = r / c;
+                const diff = Math.abs(ratio - targetRatio);
+                if (diff < bestDiff || (diff === bestDiff && c > bestCols)) {
+                    bestDiff = diff;
+                    bestCols = c;
+                }
+            }
+            return [Math.ceil(totalCards / bestCols), bestCols];
+        })();
+
+        const availableHeight = 0.8 * window.innerHeight;
+        const maxCardHeight = (availableHeight - (rows - 1) * gap) / rows;
+        const maxCardWidth = (containerWidth - (cols - 1) * gap) / cols;
+        let size = Math.min(maxCardWidth, maxCardHeight);
+        cardWidth = cardHeight = Math.max(size, minCardSize);
     }
-    const deck = [...values, ...values];
-    deck.sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < totalCards; i++) {
         const cardElement = templateCard.content.cloneNode(true).firstElementChild;
         cardElement.querySelector('.card-front').textContent = deck[i];
         cardElement.dataset.value = deck[i];
-        cardElement.style.width = 'var(--card-size)';
-        cardElement.style.height = 'var(--card-size)';
+        cardElement.style.width = cardWidth + 'px';
+        cardElement.style.height = cardHeight + 'px';
 
         cardElement.addEventListener('click', (event) => {
             const card = event.currentTarget;
@@ -169,9 +159,8 @@ function reset() {
 
 function isAllMatched() {
     if (document.querySelectorAll('.card.matched').length === document.querySelectorAll('.card').length) {
-        alert(`Победа! Перевернуто карточек: ${moves}`);
-        menu.classList.remove('visibility-hidden');
-        game.classList.add('visibility-hidden');
+        winMovesSpan.textContent = moves;
+        winOverlay.classList.remove('visibility-hidden');
     }
 }
 
@@ -182,7 +171,7 @@ function startGame(pairs) {
     secondCard = null;
     moves = 0;
     movesCount.textContent = 'Перевернуто карточек: 0';
-
+    winOverlay.classList.add('visibility-hidden');
     renderCards(pairs);
 }
 
@@ -194,6 +183,12 @@ document.querySelector('.start-button').addEventListener('click', () => {
 });
 
 document.querySelector('.home-button').addEventListener('click', () => {
+    menu.classList.remove('visibility-hidden');
+    game.classList.add('visibility-hidden');
+});
+
+winMenuButton.addEventListener('click', () => {
+    winOverlay.classList.add('visibility-hidden');
     menu.classList.remove('visibility-hidden');
     game.classList.add('visibility-hidden');
 });
