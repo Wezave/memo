@@ -88,10 +88,11 @@ body {
      -moz-appearance: none;
           appearance: none;
   background-color: transparent;
-  border: 1px solid;
+  border: 2px solid;
   inline-size: 75%;
   block-size: 5px;
   border-radius: 10px;
+  border-color: black;
   accent-color: red;
 }
 
@@ -104,6 +105,10 @@ body {
   left: 30px;
   top: 30px;
   border-radius: 50%;
+  inline-size: 45px;
+  block-size: 45px;
+  min-inline-size: 0;
+  min-block-size: 0;
 }
 
 .home-button img {
