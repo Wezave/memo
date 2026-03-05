@@ -152,23 +152,6 @@ body {
   margin-top: 20px;
 }
 
-@media (max-width: 600px) {
-  .board {
-    gap: 5px;
-    margin-top: 0px;
-  }
-  
-  .home-button {
-    left: 5px;
-    top: 5px;
-  }
-  
-  .start-menu-options {
-    flex-direction: column;
-    gap: 30px !important;
-  }
-}
-
 .moves-count {
   justify-self: center;
   margin-top: 20px;
@@ -196,6 +179,10 @@ body {
   text-align: center;
   max-width: 300px;
   
+  h2 {
+    margin: 0;
+  }
+
   button {
     min-inline-size: 75px;
   }
@@ -209,4 +196,21 @@ button {
   padding: 10px;
   font-weight: 700;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .board {
+    gap: 5px;
+    margin-top: 0px;
+  }
+  
+  .home-button {
+    left: 5px;
+    top: 5px;
+  }
+  
+  .start-menu-options {
+    flex-direction: column;
+    gap: 30px !important;
+  }
 }

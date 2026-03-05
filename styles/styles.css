@@ -219,24 +219,6 @@ body {
   margin-top: 20px;
 }
 
-@media (max-width: 600px) {
-  .board {
-    gap: 5px;
-    margin-top: 0px;
-  }
-  .home-button {
-    left: 5px;
-    top: 5px;
-  }
-  .start-menu-options {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    gap: 30px !important;
-  }
-}
-
 .moves-count {
   -ms-grid-column-align: center;
       justify-self: center;
@@ -274,6 +256,10 @@ body {
   max-width: 300px;
 }
 
+.win-block h2 {
+  margin: 0;
+}
+
 .win-block button {
   min-inline-size: 75px;
 }
@@ -286,5 +272,23 @@ button {
   padding: 10px;
   font-weight: 700;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .board {
+    gap: 5px;
+    margin-top: 0px;
+  }
+  .home-button {
+    left: 5px;
+    top: 5px;
+  }
+  .start-menu-options {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 30px !important;
+  }
 }
 /*# sourceMappingURL=styles.css.map */
