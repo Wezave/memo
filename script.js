@@ -30,7 +30,6 @@ themeButtons.forEach(btn => {
 });
 
 const themes = {
-    numbers: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19'],
     flags: ['🇦🇫','🇦🇽','🇦🇱','🇩🇿','🇦🇸','🇦🇩','🇦🇴','🇦🇮','🇦🇶','🇦🇬','🇦🇷','🇦🇲','🇦🇼','🇦🇺','🇦🇹','🇦🇿','🇧🇸','🇧🇭','🇧🇩','🇧🇧','🇧🇾','🇧🇪','🇧🇿','🇧🇯','🇧🇲','🇧🇹','🇧🇴','🇧🇦','🇧🇼','🇧🇻'],
     emojis: ['😀','😁','😂','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','😗','😙','😚','🙂','🤗','🤔','😐','😑',
              '😶','🙄','😏','😣','😥','😮','🤐','😯','😪']
@@ -44,13 +43,11 @@ function generateDeck(pairs, theme) {
     let values;
     if (theme === 'numbers') {
         values = [];
-        for (let i = 0; i < pairs; i++) values.push(i.toString());
+        for (let i = 1; i < pairs+1; i++) values.push(i.toString());
     } else {
         const arr = themes[theme];
-        values = [];
-        for (let i = 0; i < pairs; i++) {
-            values.push(arr[Math.floor(Math.random() * arr.length)]);
-        }
+        const shuffled = [...arr].sort(() => Math.random() - 0.5);
+        values = shuffled.slice(0, pairs);
     }
     const deck = [...values, ...values];
     deck.sort(() => Math.random() - 0.5);
