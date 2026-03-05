@@ -16,6 +16,7 @@ body {
   max-inline-size: 1024px;
   background-color: #849983;
   font-family: 'Montserrat';
+  color: black;
 }
 
 .start-menu {
@@ -67,24 +68,31 @@ body {
           justify-content: space-between;
 }
 
-.start-menu .start-menu-options li button {
-  inline-size: 100%;
-  min-block-size: 30px;
-}
-
 .start-menu .start-menu-options li .theme-button {
-  padding: 8px 16px;
   border: 1px solid #ccc;
   background-color: #f0f0f0;
-  cursor: pointer;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  inline-size: 100%;
+  min-block-size: 30px;
 }
 
 .start-menu .start-menu-options li .theme-button.active {
   background-color: #6a8069;
   color: white;
   border-color: #3d963d;
+}
+
+.start-menu .start-menu-options #pairs-range {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: transparent;
+  border: 1px solid;
+  inline-size: 75%;
+  block-size: 5px;
+  border-radius: 10px;
+  accent-color: red;
 }
 
 .visibility-hidden {
@@ -95,6 +103,7 @@ body {
   position: absolute;
   left: 30px;
   top: 30px;
+  border-radius: 50%;
 }
 
 .home-button img {
@@ -258,5 +267,19 @@ body {
   border-radius: 10px;
   text-align: center;
   max-width: 300px;
+}
+
+.win-block button {
+  min-inline-size: 75px;
+}
+
+button {
+  border: 1px solid;
+  border-radius: 5px;
+  min-inline-size: 75px;
+  min-block-size: 35px;
+  padding: 10px;
+  font-weight: 700;
+  cursor: pointer;
 }
 /*# sourceMappingURL=styles.css.map */
